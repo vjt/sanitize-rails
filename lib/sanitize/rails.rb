@@ -4,7 +4,7 @@ require 'sanitize'
 require 'sanitize/railtie' if defined? Rails
 
 module Sanitize::Rails
-  Version = '0.6.0'
+  Version = '0.6.1'
 
   # Configures the sanitizer with the given `config` hash.
   #
@@ -38,7 +38,7 @@ module Sanitize::Rails
     # Returns a copy of the given `string` after sanitizing it
     #
     def clean(string)
-      clean!(string.dup)
+      string.dup.tap {|s| clean!(s)}
     end
 
     # Sanitizes the given `string` in place
@@ -99,8 +99,9 @@ module Sanitize::Rails
 
       define_method(sanitizer) do                  # # Unrolled version
         fields.each do |field|                     #
-          unless field.blank?                      # def sanitize_fieldA_fieldB
-            sanitized = Engine.clean(send(field))  #   self.fieldA = Engine.clean(self.fieldA) unless fieldA.blank?
+          value = send(field)
+          unless value.blank?                      # def sanitize_fieldA_fieldB
+            sanitized = Engine.clean(value)        #   self.fieldA = Engine.clean(self.fieldA) unless fieldA.blank?
             send("#{field}=", sanitized)           #   self.fieldB = Engine.clean(self.fieldB) unless fieldB.blank?
           end                                      # end
         end                                        #
