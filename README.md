@@ -6,22 +6,49 @@ Installation
 
     gem install sanitize-rails
 
-Usage
------
-
-TODO
-
 Configuration
 -------------
 
-TODO
+config/initializers/sanitizer.rb:
+
+    Sanitize::Rails.configure(
+      :elements    => [ ... ],
+      :attribiutes => { ... },
+      ...
+    )
+
+Usage
+-----
+
+app/models/foo.rb:
+
+    sanitizes :field
+    sanitizes :some_other_field,  :on => :create
+    sanitizes :yet_another_field, :on => :save
+
+ActionView `sanitize` helper is overriden to use
+the Sanitize gem - transparently.
 
 Testing
 -------
 
-TODO
+Only Test::Unit for now - please write matchers
+and send a pull request :-)
+
+test/test\_helper:
+
+    Sanitize::Rails::TestHelpers.setup(self,
+      :invalid => 'some <a>string',
+      :valid   => 'some <a>string</a>'
+    )
+
+your test:
+
+    assert_sanitizes(Model, :field, :some_other_field)
 
 Compatibility
 -------------
 
-Tested with Rails ~3.0 under Ruby 1.8 and 1.9.
+Tested with Rails 3.0.x under Ruby 1.8 and 1.9.
+
+Have fun.
