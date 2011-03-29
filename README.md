@@ -4,7 +4,9 @@ Sanitize-Rails - sanitize .. on Rails.
 Installation
 ------------
 
-    gem install sanitize-rails
+Gemfile:
+
+    gem 'sanitize-rails', :require => 'sanitize/rails'
 
 Configuration
 -------------
