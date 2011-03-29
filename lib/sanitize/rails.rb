@@ -38,13 +38,13 @@ module Sanitize::Rails
     # Returns a copy of the given `string` after sanitizing it
     #
     def clean(string)
-      string.dup.tap {|s| clean!(s)} unless string.blank?
+      clean!(string.dup)
     end
 
-    # Sanitizes the given string in place, forcing UTF-8 encoding on it.
+    # Sanitizes the given `string` in place
     #
     def clean!(string)
-      cleaner.clean!(string) unless string.blank?
+      cleaner.clean!(string)
     end
 
     def callback_for(options) #:nodoc:
@@ -97,11 +97,13 @@ module Sanitize::Rails
       callback  = Engine.callback_for(options)
       sanitizer = Engine.method_for(fields)
 
-      define_method(sanitizer) do                  # def sanitize_fieldA_fieldB
-        fields.each do |field|                     #   # Unrolled version
-          sanitized = Engine.clean(send(field)) #   self.fieldA = Engine.clean(self.fieldA)
-          send("#{field}=", sanitized)             #   self.fieldB = Engine.clean(self.fieldB)
-        end                                        #   # For clarity :-)
+      define_method(sanitizer) do                  # # Unrolled version
+        fields.each do |field|                     #
+          unless field.blank?                      # def sanitize_fieldA_fieldB
+            sanitized = Engine.clean(send(field))  #   self.fieldA = Engine.clean(self.fieldA) unless fieldA.blank?
+            send("#{field}=", sanitized)           #   self.fieldB = Engine.clean(self.fieldB) unless fieldB.blank?
+          end                                      # end
+        end                                        #
       end                                          # end
 
       protected sanitizer                          # protected :sanitize_fieldA_fieldB
