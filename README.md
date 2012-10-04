@@ -19,6 +19,8 @@ config/initializers/sanitizer.rb:
       ...
     )
 
+There's an example in the `example/` directory.
+
 Usage
 -----
 
