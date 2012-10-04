@@ -4,7 +4,7 @@ require 'sanitize'
 require 'sanitize/railtie' if defined? Rails
 
 module Sanitize::Rails
-  Version = '0.6.1'
+  Version = '0.6.2'
 
   # Configures the sanitizer with the given `config` hash.
   #
