@@ -69,7 +69,10 @@ module Sanitize::Rails
         undef_method :sanitize
 
         # Overrides ActionView's sanitize() helper to use +Engine#clean+
-        def sanitize(string)
+        #
+        # FIXME: Options are currently ignored.
+        #
+        def sanitize(string, options = {})
           Engine.clean(string)
         end
       end
