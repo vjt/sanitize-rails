@@ -4,13 +4,13 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{sanitize-rails}
-  s.version = "0.6.1"
+  s.name = "sanitize-rails"
+  s.version = "0.6.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marcello Barnaba"]
-  s.date = %q{2011-03-29}
-  s.email = %q{vjt@openssl.it}
+  s.date = "2012-10-04"
+  s.email = "vjt@openssl.it"
   s.extra_rdoc_files = [
     "README.md"
   ]
@@ -20,13 +20,12 @@ Gem::Specification.new do |s|
     "lib/sanitize/rails.rb",
     "lib/sanitize/railtie.rb"
   ]
-  s.homepage = %q{http://github.com/vjt/sanitize-rails}
+  s.homepage = "http://github.com/vjt/sanitize-rails"
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.7}
-  s.summary = %q{A sanitizer bridge for Rails applications}
+  s.rubygems_version = "1.8.12"
+  s.summary = "A sanitizer bridge for Rails applications"
 
   if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
