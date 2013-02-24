@@ -29,10 +29,20 @@ module Sanitize::Rails
 
     # Returns a memoized instance of the Engine with the
     # configuration passed to the +configure+ method or with
-    # the Gem default configuration.
+    # the ActionView's default config
     #
     def cleaner
-      @sanitizer ||= ::Sanitize.new(@@config || {})
+      @@config ||= begin
+        {
+          :elements   => ::ActionView::Base.sanitized_allowed_tags.to_a,
+          :attributes => { :all => ::ActionView::Base.sanitized_allowed_attributes.to_a},
+          :protocols  => { :all => ::ActionView::Base.sanitized_allowed_protocols.to_a }
+        }
+      rescue
+        warn "ActionView not available, falling back to Sanitize's BASIC config"
+        ::Sanitize::Config::BASIC
+      end
+      @sanitizer ||= ::Sanitize.new(@@config)
     end
 
     # Returns a copy of the given `string` after sanitizing it
