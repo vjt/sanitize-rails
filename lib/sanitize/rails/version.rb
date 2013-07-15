@@ -1,3 +1,5 @@
-module Sanitize::Rails
-  VERSION = '0.7.0'
+module Sanitize
+  module Rails
+    VERSION = '0.7.0'
+  end
 end
