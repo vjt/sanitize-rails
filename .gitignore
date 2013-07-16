@@ -2,3 +2,4 @@ html
 pkg
 .*.sw?
 .DS_Store
+Gemfile.lock
