@@ -53,6 +53,7 @@ your test:
 Compatibility
 -------------
 
-Tested with Rails 3.0.x under Ruby 1.8 and 1.9.
+Tested with Rails 3.0.x ~ 3.2.x under Ruby 1.8 and 1.9.
 
-Have fun.
+
+Have fun!
