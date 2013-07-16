@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
   s.email         = ["vjt@openssl.it"]
   s.homepage      = "http://github.com/vjt/sanitize-rails"
   s.summary       = "A sanitizer bridge for Rails applications"
+  s.license       = "MIT"
 
   s.require_paths = ["lib"]
   s.files         = `git ls-files`.split("\n")

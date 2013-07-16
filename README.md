@@ -55,5 +55,10 @@ Compatibility
 
 Tested with Rails 3.0.x ~ 3.2.x under Ruby 1.8 and 1.9.
 
+License
+-------
+
+MIT
+
 
 Have fun!
