@@ -53,7 +53,7 @@ your test:
 Compatibility
 -------------
 
-Tested with Rails 3.0.x ~ 3.2.x under Ruby 1.8 and 1.9.
+Tested with Rails 3.0 ~ 4.0 under Ruby 1.9 and 2.0.
 
 License
 -------
