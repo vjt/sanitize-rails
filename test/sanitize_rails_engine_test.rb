@@ -27,9 +27,9 @@ class SanitizeRailsEngineTest < MiniTest::Unit::TestCase
   end
 
   def test_clean_bang_modifies_string_in_place
-    string = '<script>alert("hello world")</script>'
+    string = %Q|<script>alert("hello world")</script>|
     @engine.clean! string
-    assert_equal string, 'alert("hello world")'
+    assert_equal string, %q|alert("hello world")|
   end
 
   def test_respond_to_clean
@@ -37,9 +37,17 @@ class SanitizeRailsEngineTest < MiniTest::Unit::TestCase
   end
 
   def test_clean_does_not_modify_string_in_place
-    string = '<script>alert("hello world")</script>'
+    string = %Q|<script>alert("hello world")</script>|
     new_string = @engine.clean string
-    assert_equal string, '<script>alert("hello world")</script>'
+    assert_equal string, %Q|<script>alert("hello world")</script>|
     assert_equal new_string, 'alert("hello world")'
+  end
+
+  def test_clean_returns_safe_buffers
+    string = %Q|<script>alert("hello world")</script>|
+    assert_instance_of String, string
+
+    new_string = @engine.clean string
+    assert_instance_of ::ActiveSupport::SafeBuffer, new_string
   end
 end

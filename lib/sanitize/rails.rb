@@ -44,13 +44,17 @@ module Sanitize::Rails
       @sanitizer ||= ::Sanitize.new(@@config)
     end
 
-    # Returns a copy of the given `string` after sanitizing it
+    # Returns a copy of the given `string` after sanitizing it and marking it
+    # as `html_safe`
     #
+    # Ensuring this methods return instances of ActiveSupport::SafeBuffer
+    # means that text passed through `Sanitize::Rails::Engine.clean`
+    # will not be escaped by ActionView's XSS filtering utilities.
     def clean(string)
-      string.dup.tap {|s| clean!(s)}
+      ::ActiveSupport::SafeBuffer.new string.dup.tap { |s| clean!(s) }
     end
 
-    # Sanitizes the given `string` in place
+    # Sanitizes the given `string` in place and does NOT mark it as `html_safe`
     #
     def clean!(string)
       cleaner.clean!(string)
