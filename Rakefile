@@ -17,9 +17,13 @@ end
 
 Bundler::GemHelper.install_tasks
 
-desc 'Will someone help write tests?'
-task :default do
-  puts
-  puts 'Can you help in writing tests? Please do :-)'
-  puts
+require 'rake/testtask'
+
+Rake::TestTask.new do |t|
+  t.libs.push 'test'
+  t.test_files = FileList['test/*_test.rb']
+  t.warning = true
+  t.verbose = true
 end
+
+task default: :test
