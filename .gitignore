@@ -1,5 +1,6 @@
-html
-pkg
 .*.sw?
 .DS_Store
+*.sublime-*
 Gemfile.lock
+html
+pkg

@@ -1,4 +1,4 @@
-Sanitize-Rails - sanitize .. on Rails.
+Sanitize-Rails - sanitize .. on Rails. [![Build Status](https://travis-ci.org/vjt/sanitize-rails.png)](https://travis-ci.org/vjt/sanitize-rails)
 ======================================
 
 Installation
