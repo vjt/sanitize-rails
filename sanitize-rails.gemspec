@@ -7,9 +7,9 @@ require 'sanitize/rails/version'
 Gem::Specification.new do |s|
   s.name          = "sanitize-rails"
   s.version       = Sanitize::Rails::VERSION
-  s.date          = "2013-10-20"
-  s.authors       = ["Marcello Barnaba"]
-  s.email         = ["vjt@openssl.it"]
+  s.date          = "2014-03-14"
+  s.authors       = ["Marcello Barnaba", "Damien Wilson"]
+  s.email         = ["vjt@openssl.it", "damien@mindglob.com"]
   s.homepage      = "http://github.com/vjt/sanitize-rails"
   s.summary       = "A sanitizer bridge for Rails applications"
   s.license       = "MIT"
