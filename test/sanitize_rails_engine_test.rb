@@ -5,7 +5,7 @@ require 'sanitize'
 require 'sanitize/rails'
 
 # Test suite for Sanitize::Rails::Engine
-class SanitizeRailsEngineTest < MiniTest::Unit::TestCase
+class SanitizeRailsEngineTest < Minitest::Test
   def setup
     @engine = Sanitize::Rails::Engine
   end
@@ -49,5 +49,13 @@ class SanitizeRailsEngineTest < MiniTest::Unit::TestCase
 
     new_string = @engine.clean string
     assert_instance_of ::ActiveSupport::SafeBuffer, new_string
+  end
+
+  def test_clean_returns_blank_string_for_nil_input
+    assert_equal '', @engine.clean(nil)
+  end
+
+  def test_clean_bang_returns_blank_string_for_nil_input
+    assert_equal '', @engine.clean!(nil)
   end
 end
