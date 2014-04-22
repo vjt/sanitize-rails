@@ -5,7 +5,7 @@ require 'sanitize'
 require 'sanitize/rails'
 
 # Test suite for Sanitize::Rails::Engine
-class SanitizeRailsEngineTest < MiniTest::Unit::TestCase
+class SanitizeRailsEngineTest < Minitest::Test
   def setup
     @engine = Sanitize::Rails::Engine
   end

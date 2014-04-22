@@ -5,7 +5,7 @@ require 'sanitize'
 require 'sanitize/rails'
 
 # Test suite for Sanitize::Rails::Engine
-class SanitizeRailsStringExtensionTest < MiniTest::Unit::TestCase
+class SanitizeRailsStringExtensionTest < Minitest::Test
   SanitizableString = Class.new(String) { include Sanitize::Rails::String }
 
   def setup
