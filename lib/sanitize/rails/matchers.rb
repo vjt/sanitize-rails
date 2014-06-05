@@ -1,4 +1,4 @@
-module Sanitize::Matchers
+module Sanitize::Rails::Matchers
 
   # RSpec custom matcher to check for field sanitization
   #

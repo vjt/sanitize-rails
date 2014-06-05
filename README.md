@@ -57,7 +57,7 @@ RSpec
 
 spec/spec\_helper:
 
-    require 'sanitize/matchers'
+    require 'sanitize/rails/matchers'
 
 in spec code:
 
