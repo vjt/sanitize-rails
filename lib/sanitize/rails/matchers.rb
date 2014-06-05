@@ -110,5 +110,3 @@ module Sanitize::Rails::Matchers
   end
 
 end
-
-
