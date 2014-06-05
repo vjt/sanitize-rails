@@ -36,9 +36,6 @@ the Sanitize gem - transparently.
 Testing
 -------
 
-Only Test::Unit for now - please write matchers
-and send a pull request :-)
-
 test/test\_helper:
 
     Sanitize::Rails::TestHelpers.setup(self,
@@ -49,6 +46,26 @@ test/test\_helper:
 your test:
 
     assert_sanitizes(Model, :field, :some_other_field)
+
+With RSpec
+
+spec/spec\_helper:
+
+    require 'sanitize/matchers'
+
+in spec code:
+
+    describe Post do
+     # Simplest variant, single field and default values
+     it { should sanitize_field :title }
+     # Multiple fields
+     it { should sanitize_fields :title, :body }
+     # Specifing both text to sanitize and expected result
+     it { should sanitize_field(:title).replacing('&copy;').with('©') }
+    end
+
+You should pass field names to matcher in the same way as you do with the `sanitize` call in the model, otherwise 
+sanitize method won't be found in model
 
 Compatibility
 -------------
