@@ -1,3 +1,11 @@
+# Sanitize::Rails example configuration
+#
+# https://github.com/vjt/sanitize-rails
+#
+# Enjoy, Share and Love <3
+#
+#   -- vjt@openssl.it
+#
 HTML::WhiteListSanitizer.allowed_css_properties   = %w(text-align background-color)
 HTML::WhiteListSanitizer.shorthand_css_properties = %w()
 HTML::WhiteListSanitizer.allowed_css_keywords     = %w(left center right justify rgb)
