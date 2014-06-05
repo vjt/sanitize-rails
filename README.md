@@ -1,14 +1,18 @@
 # Sanitize-Rails - sanitize .. on Rails. [![Build Status](https://travis-ci.org/vjt/sanitize-rails.png)](https://travis-ci.org/vjt/sanitize-rails)
 
+An easy bridge to integrate Ryan Grove's [HTML Whitelist Sanitizer][sanitize]
+in your Rails application.
+
 ## Installation
 
-Gemfile:
+`Gemfile`:
 
     gem 'sanitize-rails', require: 'sanitize/rails'
 
 ## Configuration
 
-`config/initializers/sanitizer.rb`:
+Pass the configuration to `Sanitize` calling `Sanitize::Rails.configure` in
+an initializer, say `config/initializers/sanitizer.rb`:
 
     Sanitize::Rails.configure(
       elements:   [ ... ],
@@ -16,20 +20,25 @@ Gemfile:
       ...
     )
 
-There's an example in the `example/` directory.
+Check out the [example][] in the `example/` directory.
 
 ## Usage
+
+ActionView `sanitize` helper is transparently overriden to use the `Sanitize`
+gem.
+
+A `sanitize` helper is added to `ActiveRecord`, that installs on create/save
+callbacks that sanitize the given attributes before persisting them to the
+database. Example:
 
 `app/models/foo.rb`:
 
     class Foo < ActiveRecord::Base
-      sanitizes :field
-      sanitizes :some_other_field,  on: :create
-      sanitizes :yet_another_field, on: :save
-    end
+      sanitizes :description # on save by default
 
-ActionView `sanitize` helper is transparently overriden to use the `Sanitize`
-gem.
+      sanitizes :body,    on: :create
+      sanitizes :remarks, on: :save
+    end
 
 ## Testing
 
@@ -54,7 +63,7 @@ in spec code:
 
 You should pass field names to matcher in the same way as you do with the
 `sanitize` call in the model, otherwise sanitize method won't be found in
-model
+model.
 
 ### Test::Unit
 
@@ -73,10 +82,13 @@ your test:
 
 ## Compatibility
 
-Tested with Rails 3.0 and up under Ruby 1.9.3 and up.
+Tested with Rails 3.0 and :up: under Ruby 1.9.3 and :up:.
 
 ## License
 
 MIT
 
 ## :smiley: Have fun!
+
+[sanitize]: https://github.com/rgrove/sanitize
+[example]: https://github.com/vjt/sanitize-rails/blob/master/example/sanitizer.rb
