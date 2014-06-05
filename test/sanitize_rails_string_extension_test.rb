@@ -1,9 +1,5 @@
 require 'test_helper'
 
-require 'action_view'
-require 'sanitize'
-require 'sanitize/rails'
-
 # Test suite for Sanitize::Rails::Engine
 class SanitizeRailsStringExtensionTest < Minitest::Test
   SanitizableString = Class.new(String) { include Sanitize::Rails::String }
