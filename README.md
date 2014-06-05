@@ -36,7 +36,12 @@ the Sanitize gem - transparently.
 Testing
 -------
 
+Test::Unit
+==========
+
 test/test\_helper:
+
+    require 'sanitize/rails/test_helpers'
 
     Sanitize::Rails::TestHelpers.setup(self,
       :invalid => 'some <a>string',
@@ -47,7 +52,8 @@ your test:
 
     assert_sanitizes(Model, :field, :some_other_field)
 
-With RSpec
+RSpec
+=====
 
 spec/spec\_helper:
 
