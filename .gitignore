@@ -1,6 +1,8 @@
 .*.sw?
 .DS_Store
 *.sublime-*
+.ruby-version
+.bundle
 Gemfile.lock
 html
 pkg
