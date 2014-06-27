@@ -22,10 +22,10 @@ module Sanitize::Rails
 
       define_method(sanitizer) do                  # # Unrolled version
         fields.each do |field|                     #
-          value = send(field)
+          value = read_attribute(field)
           unless value.blank?                      # def sanitize_fieldA_fieldB
-            sanitized = Engine.clean(value)        #   self.fieldA = Engine.clean(self.fieldA) unless fieldA.blank?
-            send("#{field}=", sanitized)           #   self.fieldB = Engine.clean(self.fieldB) unless fieldB.blank?
+            sanitized = Engine.clean(value)        #   write_attribute(fieldA, Engine.clean(read_attribute(fieldA))) unless fieldA.blank?
+            write_attribute(field, sanitized)      #   write_attribute(fieldB, Engine.clean(read_attribute(fieldB))) unless fieldB.blank?
           end                                      # end
         end                                        #
       end                                          # end
