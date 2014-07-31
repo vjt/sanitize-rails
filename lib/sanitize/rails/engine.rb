@@ -32,13 +32,14 @@ module Sanitize::Rails
     # means that text passed through `Sanitize::Rails::Engine.clean`
     # will not be escaped by ActionView's XSS filtering utilities.
     def clean(string)
-      ::ActiveSupport::SafeBuffer.new string.to_s.dup.tap { |s| clean!(s) }
+      ::ActiveSupport::SafeBuffer.new cleaner.fragment(string)
     end
 
     # Sanitizes the given `string` in place and does NOT mark it as `html_safe`
     #
     def clean!(string)
-      cleaner.clean!(string.to_s).to_s
+      return '' if string.nil?
+      string.replace cleaner.fragment(string)
     end
 
     def callback_for(options) #:nodoc:
