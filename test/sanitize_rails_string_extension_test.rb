@@ -17,7 +17,7 @@ class SanitizeRailsStringExtensionTest < Minitest::Test
     assert_instance_of SanitizableString, sanitizable_string
 
     new_string = sanitizable_string.sanitize_as_html!
-    assert_instance_of String, new_string
+    assert_instance_of SanitizableString, new_string
   end
 
   def test_respond_to_sanitize_as_html
