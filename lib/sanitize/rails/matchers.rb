@@ -24,11 +24,37 @@ module Sanitize::Rails::Matchers
     end
   end
 
-  # Sintactic sugar
+  # Syntactic sugar
   alias_method :sanitize_fields, :sanitize_field
 
   # Add matchers module to rspec configuration
-  RSpec.configure { |c| c.include(self) } if defined? RSpec and RSpec.respond_to?(:configure)
+  ::RSpec.configure { |c| c.include(self) } if defined? ::RSpec and ::RSpec.respond_to?(:configure)
+
+  # RSpec 3 syntax
+  module RSpec3
+
+    def failure_message
+      "Expected #{should_helper} to return sanitized value '#{valid_value}', got '#{attribute_values}'"
+    end
+
+    def failure_message_when_negated
+      "Expected #{field_helper} not to be sanitized"
+    end
+
+  end
+
+  # RSpec 2 syntax
+  module RSpec2
+
+    def failure_message_for_should
+      "Expected #{should_helper} to return sanitized value '#{valid_value}', got '#{attribute_values}'"
+    end
+
+    def failure_message_for_should_not
+      "Expected #{field_helper} not to be sanitized"
+    end
+
+  end
 
   # Actual matcher class
   class SanitizeFieldsMatcher
@@ -65,12 +91,11 @@ module Sanitize::Rails::Matchers
       fields.all? { |field| valid_value == instance.send(field) }
     end
 
-    def failure_message_for_should
-      "Expected #{should_helper} to return sanitized value '#{valid_value}', got '#{attribute_values}'"
-    end
-
-    def failure_message_for_should_not
-      "Expected #{field_helper} not to be sanitized"
+    # Conditionally include RSpec modules according to loaded version
+    if defined? ::RSpec::Core::Version::STRING
+      include (::RSpec::Core::Version::STRING.split('.')[0] == '2') ? RSpec2 : RSpec3
+    else
+      raise 'RSpec version detection failed, are you using RSpec 2 or 3?'
     end
 
     def description
