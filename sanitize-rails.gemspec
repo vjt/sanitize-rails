@@ -19,4 +19,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", ">= 3.0"
   s.add_dependency "sanitize", "~> 3.0"
+  s.add_dependency "htmlentities", "~> 4.3.3"
 end
