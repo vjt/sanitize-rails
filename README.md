@@ -20,7 +20,7 @@ an initializer, say `config/initializers/sanitizer.rb`:
       ...
     )
 
-You may pass `skip_escaping_entities: true` if you don't want to escape
+You may pass `escape_entities: false` if you don't want to escape
 html entities. Example: `Hello & World` will not be changed to
 `Hello &amp; World`
 

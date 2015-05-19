@@ -49,14 +49,14 @@ class SanitizeRailsEngineTest < Minitest::Test
 
   def test_clean_not_making_html_entities
     string = %Q|<script>hello & world</script>|
-    @engine.configure(skip_escaping_entities: true)
+    @engine.configure(escape_entities: false)
     @engine.clean! string
     assert_equal string, "hello & world"
   end
 
   def test_clean_making_html_entities
     string = %Q|<script>hello & world</script>|
-    @engine.configure(skip_escaping_entities: false)
+    @engine.configure(escape_entities: true)
     @engine.clean! string
     assert_equal string, "hello &amp; world"
   end
