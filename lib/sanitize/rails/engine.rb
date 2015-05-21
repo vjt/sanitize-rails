@@ -16,13 +16,18 @@ module Sanitize::Rails
         {
           :elements   => ::ActionView::Base.sanitized_allowed_tags.to_a,
           :attributes => { :all => ::ActionView::Base.sanitized_allowed_attributes.to_a},
-          :protocols  => { :all => ::ActionView::Base.sanitized_allowed_protocols.to_a }
+          :protocols  => { :all => ::ActionView::Base.sanitized_allowed_protocols.to_a },
+          :escape_entities => true
         }
       rescue
         warn "ActionView not available, falling back to Sanitize's BASIC config"
         ::Sanitize::Config::BASIC
       end
       @sanitizer ||= ::Sanitize.new(@@config)
+    end
+
+    def coder
+      @coder ||= HTMLEntities.new
     end
 
     # Returns a copy of the given `string` after sanitizing it and marking it
@@ -32,14 +37,14 @@ module Sanitize::Rails
     # means that text passed through `Sanitize::Rails::Engine.clean`
     # will not be escaped by ActionView's XSS filtering utilities.
     def clean(string)
-      ::ActiveSupport::SafeBuffer.new cleaner.fragment(string)
+      ::ActiveSupport::SafeBuffer.new cleaned_fragment(string)
     end
 
     # Sanitizes the given `string` in place and does NOT mark it as `html_safe`
     #
     def clean!(string)
       return '' if string.nil?
-      string.replace cleaner.fragment(string)
+      string.replace cleaned_fragment(string)
     end
 
     def callback_for(options) #:nodoc:
@@ -54,6 +59,18 @@ module Sanitize::Rails
 
     def method_for(fields) #:nodoc:
       "sanitize_#{fields.join('_')}".intern
+    end
+
+    private
+
+    def escape_entities
+      @@config[:escape_entities].nil? ? true : @@config[:escape_entities]
+    end
+
+    def cleaned_fragment(string)
+      result = cleaner.fragment(string)
+      result = coder.decode(result) unless escape_entities
+      result
     end
   end
 end

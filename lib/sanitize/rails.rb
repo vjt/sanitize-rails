@@ -8,6 +8,7 @@
 # MIT License
 #
 require 'sanitize'
+require 'htmlentities'
 require 'sanitize/rails/railtie' if defined? Rails
 
 module Sanitize::Rails

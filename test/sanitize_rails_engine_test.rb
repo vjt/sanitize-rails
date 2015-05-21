@@ -47,6 +47,20 @@ class SanitizeRailsEngineTest < Minitest::Test
     assert_instance_of ::ActiveSupport::SafeBuffer, new_string
   end
 
+  def test_clean_not_making_html_entities
+    string = %Q|<script>hello & world</script>|
+    @engine.configure(escape_entities: false)
+    @engine.clean! string
+    assert_equal string, "hello & world"
+  end
+
+  def test_clean_making_html_entities
+    string = %Q|<script>hello & world</script>|
+    @engine.configure(escape_entities: true)
+    @engine.clean! string
+    assert_equal string, "hello &amp; world"
+  end
+
   def test_clean_returns_blank_string_for_nil_input
     assert_equal '', @engine.clean(nil)
   end
