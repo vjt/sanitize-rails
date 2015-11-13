@@ -3,16 +3,17 @@ module Sanitize::Rails
   module Engine
     extend self
 
+    # Changes the Sanitizer configuration.
+    #
     def configure(config)
-      @@config = config.freeze
+      @_config = config.freeze
+      @_cleaner = nil
     end
 
-    # Returns a memoized instance of the Engine with the
-    # configuration passed to the +configure+ method or with
-    # the ActionView's default config
+    # Returns the current Sanitizer configuration.
     #
-    def cleaner
-      @@config ||= begin
+    def config
+      @_config ||= begin
         {
           :elements   => ::ActionView::Base.sanitized_allowed_tags.to_a,
           :attributes => { :all => ::ActionView::Base.sanitized_allowed_attributes.to_a},
@@ -23,7 +24,14 @@ module Sanitize::Rails
         warn "ActionView not available, falling back to Sanitize's BASIC config"
         ::Sanitize::Config::BASIC
       end
-      @sanitizer ||= ::Sanitize.new(@@config)
+    end
+
+    # Returns a memoized instance of the Engine with the
+    # configuration passed to the +configure+ method or with
+    # the ActionView's default config
+    #
+    def cleaner
+      @_cleaner ||= ::Sanitize.new(config)
     end
 
     def coder
