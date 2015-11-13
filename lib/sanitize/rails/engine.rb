@@ -18,7 +18,6 @@ module Sanitize::Rails
           :elements   => ::ActionView::Base.sanitized_allowed_tags.to_a,
           :attributes => { :all => ::ActionView::Base.sanitized_allowed_attributes.to_a},
           :protocols  => { :all => ::ActionView::Base.sanitized_allowed_protocols.to_a },
-          :escape_entities => true
         }
       rescue
         warn "ActionView not available, falling back to Sanitize's BASIC config"
@@ -32,10 +31,6 @@ module Sanitize::Rails
     #
     def cleaner
       @_cleaner ||= ::Sanitize.new(config)
-    end
-
-    def coder
-      @coder ||= HTMLEntities.new
     end
 
     # Returns a copy of the given `string` after sanitizing it and marking it
@@ -71,14 +66,8 @@ module Sanitize::Rails
 
     private
 
-    def escape_entities
-      @@config[:escape_entities].nil? ? true : @@config[:escape_entities]
-    end
-
     def cleaned_fragment(string)
-      result = cleaner.fragment(string)
-      result = coder.decode(result) unless escape_entities
-      result
+      cleaner.fragment(string)
     end
   end
 end

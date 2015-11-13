@@ -3,12 +3,11 @@
 #
 # https://github.com/vjt/sanitize-rails
 #
-# (C) 2011-2014 vjt@openssl.it
+# (C) 2011-2015 vjt@openssl.it
 #
 # MIT License
 #
 require 'sanitize'
-require 'htmlentities'
 require 'sanitize/rails/railtie' if defined? Rails
 
 module Sanitize::Rails
