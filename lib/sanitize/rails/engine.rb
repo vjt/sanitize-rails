@@ -10,18 +10,28 @@ module Sanitize::Rails
       @_cleaner = nil
     end
 
-    # Returns the current Sanitizer configuration.
+    # Returns the current Sanitizer configuration. The configuration is built
+    # from Rails configuration, if defined, else Sanitize::Config::BASIC is
+    # used.
     #
-    def config
-      @_config ||= begin
-        {
-          :elements   => ::ActionView::Base.sanitized_allowed_tags.to_a,
-          :attributes => { :all => ::ActionView::Base.sanitized_allowed_attributes.to_a},
-          :protocols  => { :all => ::ActionView::Base.sanitized_allowed_protocols.to_a },
-        }
-      rescue
-        warn "ActionView not available, falling back to Sanitize's BASIC config"
-        ::Sanitize::Config::BASIC
+    # FIXME: Remove this, as it is meant only not to break assumptions on old
+    # applications.
+    #
+    if defined?(::ActionView::Base) &&
+      ::ActionView::Base.respond_to?(:sanitized_allowed_tags) &&
+      ::ActionView::Base.sanitized_allowed_tags.respond_to?(:size) &&
+      ::ActionView::Base.sanitized_allowed_tags.size > 0
+
+      def config
+	@_config ||= {
+	  :elements => ::ActionView::Base.sanitized_allowed_tags.to_a,
+	  :attributes => { :all => ::ActionView::Base.sanitized_allowed_attributes.to_a },
+	  :protocols  => { :all => ::ActionView::Base.sanitized_allowed_protocols.to_a }
+	}
+      end
+    else
+      def config
+	@_config ||= ::Sanitize::Config::BASIC
       end
     end
 
