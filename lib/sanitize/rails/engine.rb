@@ -26,7 +26,8 @@ module Sanitize::Rails
 	@_config ||= {
 	  :elements => ::ActionView::Base.sanitized_allowed_tags.to_a,
 	  :attributes => { :all => ::ActionView::Base.sanitized_allowed_attributes.to_a },
-	  :protocols  => { :all => ::ActionView::Base.sanitized_allowed_protocols.to_a }
+	  :protocols  => { :all => ::ActionView::Base.sanitized_allowed_protocols.to_a },
+	  :entities_whitelist => {}
 	}
       end
     else
@@ -64,7 +65,7 @@ module Sanitize::Rails
       point = (options[:on] || 'save').to_s
 
       unless %w( save create ).include?(point)
-        raise ArgumentError, "Invalid callback point #{point}, valid ones are :save and :create"
+	raise ArgumentError, "Invalid callback point #{point}, valid ones are :save and :create"
       end
 
       "before_#{point}".intern
@@ -76,8 +77,16 @@ module Sanitize::Rails
 
     private
 
+    def decode_whitelistested_entities(string)
+      @_config[:entities_whitelist].each do |entity, decoded_value|
+	string.gsub!(entity.to_s, decoded_value.to_s)
+      end
+      string
+    end
+
     def cleaned_fragment(string)
-      cleaner.fragment(string)
+      sanitized_string = cleaner.fragment(string)
+      decode_whitelistested_entities(sanitized_string) unless @_config[:entities_whitelist].empty?
     end
   end
 end

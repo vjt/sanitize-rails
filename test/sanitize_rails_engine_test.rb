@@ -53,6 +53,13 @@ class SanitizeRailsEngineTest < Minitest::Test
     assert_equal string, "&lt;script&gt;hello &amp; world&lt;/script&gt;"
   end
 
+  def test_clean_not_making_explicit_html_entities
+    string = %Q|<script>hello & world</script>|
+    @engine.configure(entities_whitelist: { '&amp;': '&' })
+    @engine.clean! string
+    assert_equal string, "hello & world"
+  end
+
   def test_clean_making_html_entities
     string = %Q|<script>hello & world</script>|
     @engine.clean! string
