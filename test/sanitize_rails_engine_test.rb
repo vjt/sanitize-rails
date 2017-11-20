@@ -4,6 +4,7 @@ require 'test_helper'
 class SanitizeRailsEngineTest < Minitest::Test
   def setup
     @engine = Sanitize::Rails::Engine
+    @engine.configure({})
   end
 
   def test_respond_to_configure
