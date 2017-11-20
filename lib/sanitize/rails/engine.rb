@@ -79,14 +79,20 @@ module Sanitize::Rails
 
     def decode_whitelistested_entities(string)
       @_config[:entities_whitelist].each do |entity, decoded_value|
-	string.gsub!(entity.to_s, decoded_value.to_s)
+        string.gsub!(entity.to_s, decoded_value.to_s)
       end
+
       string
     end
 
     def cleaned_fragment(string)
       sanitized_string = cleaner.fragment(string)
-      decode_whitelistested_entities(sanitized_string) unless @_config[:entities_whitelist].empty?
+
+      if @_config[:entities_whitelist].present?
+        sanitized_string = decode_whitelistested_entities(sanitized_string)
+      end
+
+      return sanitized_string
     end
   end
 end
