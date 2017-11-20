@@ -3,6 +3,7 @@
 *.sublime-*
 .ruby-version
 .bundle
+.byebug_history
 Gemfile.lock
 gemfiles/*.lock
 html
