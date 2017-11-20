@@ -67,7 +67,7 @@ module Sanitize::Rails
       point = (options[:on] || 'save').to_s
 
       unless %w( save create ).include?(point)
-	raise ArgumentError, "Invalid callback point #{point}, valid ones are :save and :create"
+        raise ArgumentError, "Invalid callback point #{point}, valid ones are :save and :create"
       end
 
       "before_#{point}".intern
