@@ -25,7 +25,7 @@ class SanitizeRailsEngineTest < Minitest::Test
   def test_clean_bang_modifies_string_in_place
     string = %Q|<script>alert("hello world")</script>|
     @engine.clean! string
-    assert_equal string, %q|alert("hello world")|
+    assert_equal %q|alert("hello world")|, string
   end
 
   def test_respond_to_clean
@@ -35,8 +35,8 @@ class SanitizeRailsEngineTest < Minitest::Test
   def test_clean_does_not_modify_string_in_place
     string = %Q|<script>alert("hello world")</script>|
     new_string = @engine.clean string
-    assert_equal string, %Q|<script>alert("hello world")</script>|
-    assert_equal new_string, 'alert("hello world")'
+    assert_equal %Q|<script>alert("hello world")</script>|, string
+    assert_equal 'alert("hello world")', new_string
   end
 
   def test_clean_returns_safe_buffers
@@ -50,27 +50,27 @@ class SanitizeRailsEngineTest < Minitest::Test
   def test_clean_not_producing_malicious_html_entities
     string = %Q|&lt;script&gt;hello & world&lt;/script&gt;|
     @engine.clean! string
-    assert_equal string, "&lt;script&gt;hello &amp; world&lt;/script&gt;"
+    assert_equal "&lt;script&gt;hello &amp; world&lt;/script&gt;", string
   end
 
   def test_clean_not_making_explicit_html_entities
     string = %Q|<script>hello & world</script>|
     @engine.configure(entities_whitelist: { '&amp;': '&' })
     @engine.clean! string
-    assert_equal string, "hello & world"
+    assert_equal "hello & world", string
   end
 
   def test_clean_making_html_entities
     string = %Q|<script>hello & world</script>|
     @engine.clean! string
-    assert_equal string, "hello &amp; world"
+    assert_equal "hello &amp; world", string
   end
 
   def test_clean_returns_blank_string_for_nil_input
-    assert_equal '', @engine.clean(nil)
+    assert_equal @engine.clean(nil), ''
   end
 
   def test_clean_bang_returns_blank_string_for_nil_input
-    assert_equal '', @engine.clean!(nil)
+    assert_equal @engine.clean!(nil), ''
   end
 end
