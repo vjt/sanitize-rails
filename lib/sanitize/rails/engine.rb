@@ -23,16 +23,18 @@ module Sanitize::Rails
       ::ActionView::Base.sanitized_allowed_tags.size > 0
 
       def config
-	@_config ||= {
-	  :elements => ::ActionView::Base.sanitized_allowed_tags.to_a,
-	  :attributes => { :all => ::ActionView::Base.sanitized_allowed_attributes.to_a },
-	  :protocols  => { :all => ::ActionView::Base.sanitized_allowed_protocols.to_a },
-	  :entities_whitelist => {}
-	}
-      end
+        @_config ||= {
+          :elements => ::ActionView::Base.sanitized_allowed_tags.to_a,
+          :attributes => { :all => ::ActionView::Base.sanitized_allowed_attributes.to_a },
+          :protocols  => { :all => ::ActionView::Base.sanitized_allowed_protocols.to_a },
+          :entities_whitelist => {}
+        }
+      end.freeze
     else
       def config
-	@_config ||= ::Sanitize::Config::BASIC
+        @_config ||= ::Sanitize::Config::BASIC.dup.tap do |config|
+          config[:entities_whitelist] ||= {}
+        end.freeze
       end
     end
 
