@@ -4,6 +4,7 @@
 .ruby-version
 .bundle
 Gemfile.lock
+gemfiles/*.lock
 html
 pkg
 .idea
