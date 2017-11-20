@@ -17,7 +17,9 @@ module Sanitize::Rails
     # FIXME: Remove this, as it is meant only not to break assumptions on old
     # applications.
     #
-    if defined?(::ActionView::Base) &&
+    require 'rails'
+
+    if defined?(::ActionView::Base) && Rails.version.to_i < 5 &&
       ::ActionView::Base.respond_to?(:sanitized_allowed_tags) &&
       ::ActionView::Base.sanitized_allowed_tags.respond_to?(:size) &&
       ::ActionView::Base.sanitized_allowed_tags.size > 0
